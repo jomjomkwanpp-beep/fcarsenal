@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สโมสรฟุตบอลอาร์เซนอล (Arsenal FC) | Victoria Concordia Crescit</title>
+    
+    <!-- ฟอนต์ภาษาไทย Prompt และฟอนต์อังกฤษ Montserrat จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS สำหรับจัด Layout ที่รองรับทุกหน้าจอ (Responsive) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- =========================================================================
+         ส่วนกำหนดสีหลักของสโมสรอาร์เซนอล (Arsenal Brand Color Palette) & Custom CSS
+         คุณสามารถปรับแต่งโทนสีหลักได้ที่ตัวแปร :root ด้านล่างนี้
+    ========================================================================== -->
+    <style>
+        :root {
+            --arsenal-red: #EF0107;        /* สีแดงหลักอาร์เซนอล */
+            --arsenal-dark-red: #9C0004;   /* สีแดงเข้มสำหรับ Hover หรือเงา */
+            --arsenal-navy: #063672;       /* สีกรมท่าประจำสโมสร */
+            --arsenal-gold: #B4975A;       /* สีทองแชมป์เปี้ยน */
+            --arsenal-white: #FFFFFF;      /* สีขาวสะอาด */
+            --arsenal-dark: #111827;       /* สีพื้นหลังเข้ม */
+            --arsenal-gray: #F8F9FA;       /* สีพื้นหลังเทาอ่อน */
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            color: #1F2937;
+            background-color: var(--arsenal-gray);
+            overflow-x: hidden;
+        }
+
+        .font-en {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* แถบเมนูนำทางแบบโปร่งแสง (Glassmorphism Navbar) */
+        .arsenal-nav {
+            background: rgba(239, 1, 7, 0.96);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(156, 0, 4, 0.25);
+        }
+
+        /* การไล่ระดับสีทับซ้อนบนแบนเนอร์หลัก (Hero Overlay) */
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(6, 54, 114, 0.90) 0%, rgba(156, 0, 4, 0.86) 55%, rgba(239, 1, 7, 0.82) 100%);
+        }
+
+        /* เอฟเฟกต์การ์ดยกตัวเมื่อนำเมาส์ไปชี้ */
+        .hover-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .hover-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px -5px rgba(239, 1, 7, 0.18);
+        }
+
+        /* ตกแต่งเส้นขอบสีทองและสีแดง */
+        .gold-border {
+            border-color: var(--arsenal-gold);
+        }
+        .bg-arsenal-red {
+            background-color: var(--arsenal-red);
+        }
+        .bg-arsenal-navy {
+            background-color: var(--arsenal-navy);
+        }
+        .text-arsenal-red {
+            color: var(--arsenal-red);
+        }
+        .text-arsenal-navy {
+            color: var(--arsenal-navy);
+        }
+        .text-arsenal-gold {
+            color: var(--arsenal-gold);
+        }
+
+        /* ปุ่มกดสไตล์พรีเมียม */
+        .btn-arsenal {
+            background-color: var(--arsenal-red);
+            color: white;
+            transition: all 0.25s ease;
+        }
+        .btn-arsenal:hover {
+            background-color: var(--arsenal-dark-red);
+            transform: translateY(-2px);
+        }
+
+        /* หน้าต่าง Modal สำหรับอ่านเพิ่มเติม */
+        .modal-backdrop {
+            background-color: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(4px);
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.94) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =========================================================================
+         1. แถบเมนูนำทางหลัก (NAVIGATION BAR)
+         รองรับทั้งหน้าจอคอมพิวเตอร์และปุ่ม Hamburger บนมือถือ
+    ========================================================================== -->
+    <header class="arsenal-nav sticky top-0 z-50 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- โลโก้และชื่อสโมสร -->
+                <a href="#home" class="flex items-center space-x-3 group">
+                    <!-- ไอคอนปืนใหญ่สัญลักษณ์อาร์เซนอล (SVG) -->
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md group-hover:scale-105 transition">
+                        <svg class="w-8 h-8 text-[#EF0107]" viewBox="0 0 64 64" fill="currentColor">
+                            <path d="M12 18h40l-4 24c-2 10-16 16-16 16s-14-6-16-16L12 18z" fill="#EF0107" stroke="#B4975A" stroke-width="3"/>
+                            <circle cx="24" cy="36" r="6" fill="#FFFFFF"/>
+                            <rect x="24" y="31" width="24" height="5" rx="2" fill="#FFFFFF"/>
+                            <path d="M18 39l6-3" stroke="#063672" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-en font-extrabold text-xl tracking-wider block leading-none">ARSENAL FC</span>
+                        <span class="text-xs text-red-100 font-light">สโมสรฟุตบอลอาร์เซนอล</span>
+                    </div>
+                </a>
+
+                <!-- เมนูสำหรับหน้าจอ Desktop -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <a href="#home" class="px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/15 transition">หน้าแรก</a>
+                    <a href="#history" class="px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/15 transition">ประวัติสโมสร</a>
+                    <a href="#honors" class="px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/15 transition">ผลงานและเกียรติประวัติ</a>
+                    <a href="#squad" class="px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/15 transition">รายชื่อผู้เล่น</a>
+                    <a href="#developer" class="ml-2 px-4 py-2 rounded-full bg-[#063672] hover:bg-[#04244d] text-white text-sm font-medium shadow transition border border-white/20">
+                        ติดต่อผู้พัฒนา
+                    </a>
+                </nav>
+
+                <!-- ปุ่มเปิดเมนูสำหรับมือถือ -->
+                <button id="mobile-menu-btn" aria-label="เปิดเมนู" class="md:hidden p-2 rounded-lg hover:bg-white/15 focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- เมนูดรอปดาวน์สำหรับมือถือ -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#9C0004] border-t border-white/15 px-4 pt-2 pb-5 space-y-1">
+            <a href="#home" class="mobile-link block px-4 py-3 rounded-lg text-base font-medium hover:bg-white/10">หน้าแรก</a>
+            <a href="#history" class="mobile-link block px-4 py-3 rounded-lg text-base font-medium hover:bg-white/10">ประวัติสโมสร</a>
+            <a href="#honors" class="mobile-link block px-4 py-3 rounded-lg text-base font-medium hover:bg-white/10">ผลงานและเกียรติประวัติ</a>
+            <a href="#squad" class="mobile-link block px-4 py-3 rounded-lg text-base font-medium hover:bg-white/10">รายชื่อผู้เล่น</a>
+            <a href="#developer" class="mobile-link block px-4 py-3 rounded-lg text-base font-medium bg-[#063672] text-center mt-2">ติดต่อผู้พัฒนา (คุณจอมขวัญ)</a>
+        </div>
+    </header>
+
+    <!-- =========================================================================
+         2. ส่วนหน้าแรก / แบนเนอร์หลัก (HERO SECTION)
+    ========================================================================== -->
+    <section id="home" class="relative text-white py-20 lg:py-32 overflow-hidden bg-[#063672]">
+        <!-- =====================================================================
+             [จุดแก้ไขรูปภาพแบนเนอร์หลัก (Hero Banner)]
+             คุณสามารถเปลี่ยน URL รูปภาพสนามหรือบรรยากาศทีมได้ตรงแท็ก <img> ด้านล่างนี้
+        ====================================================================== -->
+        <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1920&q=80" 
+             alt="สนามเอมิเรตส์ สเตเดียม สโมสรฟุตบอลอาร์เซนอล" 
+             onerror="this.src='https://placehold.co/1920x1080/063672/FFFFFF?text=Arsenal+FC+Emirates+Stadium'"
+             class="absolute inset-0 w-full h-full object-cover object-center z-0">
+        
+        <!-- แผ่นกรองสีโทนสโมสรทับบนรูปภาพเพื่อให้อ่านตัวอักษรชัดเจน -->
+        <div class="hero-overlay absolute inset-0 z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center space-x-2 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full px-4 py-1.5 mb-6">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#B4975A] animate-pulse"></span>
+                    <span class="text-xs sm:text-sm font-medium tracking-wide">ก่อตั้งปี ค.ศ. 1886 • ลอนดอน, ประเทศอังกฤษ</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-3">
+                    สโมสรฟุตบอล<span class="text-[#FDE047]">อาร์เซนอล</span>
+                </h1>
+                <p class="font-en text-xl sm:text-2xl font-bold tracking-widest text-[#B4975A] uppercase mb-2">
+                    “VICTORIA CONCORDIA CRESCIT”
+                </p>
+                <p class="text-sm sm:text-base text-amber-200 font-medium mb-6">
+                    ชัยชนะเกิดจากความสามัคคี (Victory Through Harmony)
+                </p>
+                <p class="text-base sm:text-lg text-gray-100 leading-relaxed mb-8 font-light">
+                    ยินดีต้อนรับสู่เว็บไซต์ข้อมูลอย่างครบวงจรของทัพ <strong>"ปืนใหญ่" (The Gunners)</strong> 
+                    สโมสรฟุตบอลระดับตำนานแห่งกรุงลอนดอน เจ้าของสถิติแชมป์เอฟเอคัพสูงสุด 14 สมัย และตำนานแชมป์พรีเมียร์ลีกไร้พ่าย 
+                    สำรวจประวัติศาสตร์ ความสำเร็จ และขุมกำลังนักเตะชุดปัจจุบันได้ในที่เดียว
+                </p>
+
+                <!-- ปุ่มลิงก์นำทางด่วน -->
+                <div class="flex flex-wrap gap-4">
+                    <a href="#history" class="px-7 py-3.5 rounded-xl bg-white text-[#EF0107] font-semibold shadow-lg hover:bg-gray-100 transition flex items-center gap-2">
+                        <span>อ่านประวัติการก่อตั้ง</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                    <a href="#squad" class="px-7 py-3.5 rounded-xl bg-[#063672] text-white font-semibold border border-white/25 shadow-lg hover:bg-[#04244d] transition">
+                        ดูรายชื่อนักเตะ
+                    </a>
+                </div>
+            </div>
+
+            <!-- แถบสถิติสำคัญของสโมสร -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-white/20">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/15">
+                    <div class="font-en text-3xl sm:text-4xl font-extrabold text-[#FDE047]">1886</div>
+                    <div class="text-sm text-gray-200 mt-1">ปีที่ก่อตั้งสโมสร (Dial Square)</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/15">
+                    <div class="font-en text-3xl sm:text-4xl font-extrabold text-white">13</div>
+                    <div class="text-sm text-gray-200 mt-1">แชมป์ลีกสูงสุดอังกฤษ</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/15">
+                    <div class="font-en text-3xl sm:text-4xl font-extrabold text-[#FDE047]">14</div>
+                    <div class="text-sm text-gray-200 mt-1">แชมป์เอฟเอ คัพ (สูงสุดตลอดกาล)</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/15">
+                    <div class="font-en text-3xl sm:text-4xl font-extrabold text-white">49</div>
+                    <div class="text-sm text-gray-200 mt-1">สถิติไร้พ่ายในลีกติดต่อกัน</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+         3. ส่วนประวัติการก่อตั้งทีม (CLUB HISTORY SECTION)
+         มีปุ่ม "อ่านเพิ่มเติม" ที่สามารถคลิกเปิด Modal อ่านประวัติเชิงลึกแต่ละยุคได้
+    ========================================================================== -->
+    <section id="history" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- หัวข้อ Section -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sm font-bold tracking-wider uppercase text-arsenal-red">OUR HERITAGE & STORY</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">ประวัติการก่อตั้งสโมสรอาร์เซนอล</h2>
+                <div class="w-20 h-1.5 bg-arsenal-red mx-auto mt-4 rounded-full"></div>
+                <p class="text-gray-600 mt-4">
+                    จากกลุ่มคนงานโรงงานผลิตอาวุธในย่านวูลิช สู่หนึ่งในสโมสรฟุตบอลที่ยิ่งใหญ่และมีเอกลักษณ์ที่สุดในโลก
+                </p>
+            </div>
+
+            <!-- ไทม์ไลน์ประวัติศาสตร์ 4 ยุคสำคัญ (คลิกอ่านเพิ่มเติมได้ทุกการ์ด) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- ยุคที่ 1 -->
+                <article class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover-card flex flex-col">
+                    <div class="h-44 bg-[#063672] relative overflow-hidden">
+                        <!-- เปลี่ยนรูปภาพประวัติศาสตร์ยุคที่ 1 ได้ที่ src ด้านล่าง -->
+                        <img src="https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=800&q=80" 
+                             alt="จุดเริ่มต้น Dial Square 1886" 
+                             onerror="this.src='https://placehold.co/800x450/063672/FFFFFF?text=1886+Dial+Square'"
+                             class="w-full h-full object-cover opacity-80">
+                        <span class="absolute top-3 left-3 bg-arsenal-red text-white text-xs font-bold px-3 py-1 rounded-full">ค.ศ. 1886 - 1913</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">จุดกำเนิด Dial Square</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed flex-1">
+                            ก่อตั้งขึ้นในปลายปี 1886 โดยกลุ่มคนงานโรงงานผลิตอาวุธ Royal Arsenal ในย่านวูลิช ทางตะวันออกเฉียงใต้ของลอนดอน ก่อนเปลี่ยนชื่อเป็น Woolwich Arsenal...
+                        </p>
+                        <button onclick="openModal('history1')" class="mt-5 inline-flex items-center text-sm font-semibold text-arsenal-red hover:text-[#9C0004] group">
+                            <span>คลิกอ่านเพิ่มเติม</span>
+                            <svg class="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- ยุคที่ 2 -->
+                <article class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover-card flex flex-col">
+                    <div class="h-44 bg-[#9C0004] relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80" 
+                             alt="ย้ายสู่ไฮบิวรีและยุคเฮอร์เบิร์ต แชปแมน" 
+                             onerror="this.src='https://placehold.co/800x450/9C0004/FFFFFF?text=1913+Highbury+Era'"
+                             class="w-full h-full object-cover opacity-80">
+                        <span class="absolute top-3 left-3 bg-[#063672] text-white text-xs font-bold px-3 py-1 rounded-full">ค.ศ. 1913 - 1939</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">สู่ไฮบิวรี & ยุคแชปแมน</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed flex-1">
+                            ปี 1913 สโมสรย้ายข้ามแม่น้ำเทมส์สู่สนามไฮบิวรี ทางตอนเหนือของลอนดอน และก้าวสู่ความยิ่งใหญ่ภายใต้การคุมทีมของยอดกุนซือ เฮอร์เบิร์ต แชปแมน...
+                        </p>
+                        <button onclick="openModal('history2')" class="mt-5 inline-flex items-center text-sm font-semibold text-arsenal-red hover:text-[#9C0004] group">
+                            <span>คลิกอ่านเพิ่มเติม</span>
+                            <svg class="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- ยุคที่ 3 -->
+                <article class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover-card flex flex-col">
+                    <div class="h-44 bg-[#B4975A] relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=800&q=80" 
+                             alt="ยุคทอง อาร์แซน เวนเกอร์" 
+                             onerror="this.src='https://placehold.co/800x450/B4975A/FFFFFF?text=Wenger+Invincibles'"
+                             class="w-full h-full object-cover opacity-80">
+                        <span class="absolute top-3 left-3 bg-arsenal-red text-white text-xs font-bold px-3 py-1 rounded-full">ค.ศ. 1996 - 2018</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">ยุคปฏิวัติของ อาร์แซน เวนเกอร์</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed flex-1">
+                            อาร์แซน เวนเกอร์ เข้ามาพลิกโฉมฟุตบอลอังกฤษด้วยสไตล์การเล่นที่สวยงาม คว้าดับเบิลแชมป์ และสร้างประวัติศาสตร์แชมป์ไร้พ่าย (The Invincibles) 2003–04...
+                        </p>
+                        <button onclick="openModal('history3')" class="mt-5 inline-flex items-center text-sm font-semibold text-arsenal-red hover:text-[#9C0004] group">
+                            <span>คลิกอ่านเพิ่มเติม</span>
+                            <svg class="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- ยุคที่ 4 -->
+                <article class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover-card flex flex-col">
+                    <div class="h-44 bg-[#EF0107] relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" 
+                             alt="ยุคเอมิเรตส์ สเตเดียม และ มิเกล อาร์เตต้า" 
+                             onerror="this.src='https://placehold.co/800x450/EF0107/FFFFFF?text=Emirates+Modern+Era'"
+                             class="w-full h-full object-cover opacity-80">
+                        <span class="absolute top-3 left-3 bg-[#063672] text-white text-xs font-bold px-3 py-1 rounded-full">ค.ศ. 2006 - ปัจจุบัน</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">เอมิเรตส์ สเตเดียม & ยุคใหม่</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed flex-1">
+                            การย้ายสู่รังเหย้าแห่งใหม่ เอมิเรตส์ สเตเดียม ความจุ 60,704 ที่นั่ง และการกลับมาทวงความยิ่งใหญ่ในฐานะทีมลุ้นแชมป์เต็มตัวภายใต้การนำของ มิเกล อาร์เตต้า...
+                        </p>
+                        <button onclick="openModal('history4')" class="mt-5 inline-flex items-center text-sm font-semibold text-arsenal-red hover:text-[#9C0004] group">
+                            <span>คลิกอ่านเพิ่มเติม</span>
+                            <svg class="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- ปุ่มเปิดอ่านประวัติศาสตร์ฉบับสมบูรณ์ -->
+            <div class="text-center mt-10">
+                <button onclick="openModal('historyFull')" class="btn-arsenal px-8 py-3.5 rounded-xl font-semibold shadow-md inline-flex items-center space-x-2">
+                    <span>อ่านประวัติศาสตร์สโมสรฉบับเต็ม (1886 - ปัจจุบัน)</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+         4. ส่วนผลงานตั้งแต่อดีตจนถึงปัจจุบัน (HONORS & ACHIEVEMENTS)
+         แสดงตู้ถ้วยรางวัลและสามารถคลิกดูทำเนียบปีที่คว้าแชมป์ได้
+    ========================================================================== -->
+    <section id="honors" class="py-20 bg-[#063672] text-white relative overflow-hidden">
+        <!-- ลวดลายตกแต่งพื้นหลัง -->
+        <div class="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-[#EF0107] opacity-15 blur-3xl"></div>
+        <div class="absolute -left-24 -bottom-24 w-96 h-96 rounded-full bg-[#B4975A] opacity-15 blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sm font-bold tracking-wider uppercase text-[#B4975A]">TROPHY CABINET & ACHIEVEMENTS</span>
+                <h2 class="text-3xl sm:text-4xl font-bold mt-2">ผลงานและเกียรติประวัติตั้งแต่อดีตถึงปัจจุบัน</h2>
+                <div class="w-20 h-1.5 bg-[#B4975A] mx-auto mt-4 rounded-full"></div>
+                <p class="text-blue-100 mt-4">
+                    ความสำเร็จระดับตำนานตลอดกว่า 138 ปี ของสโมสรฟุตบอลอาร์เซนอล คลิกที่รายการแข่งขันเพื่อดูปีที่คว้าแชมป์ทั้งหมด
+                </p>
+            </div>
+
+            <!-- การ์ดรายการถ้วยรางวัล -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. ลีกสูงสุด -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-7 hover-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-[#B4975A] text-gray-900 text-xs font-bold rounded-full">ลีกสูงสุดอังกฤษ</span>
+                            <span class="font-en text-4xl font-extrabold text-[#FDE047]">13 สมัย</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">พรีเมียร์ลีก / ดิวิชั่น 1 เดิม</h3>
+                        <p class="text-sm text-blue-100 leading-relaxed">
+                            รวมถึงฤดูกาลประวัติศาสตร์ <strong>2003–04 (The Invincibles)</strong> ที่คว้าแชมป์พรีเมียร์ลีกโดยไม่แพ้ใครเลยตลอดทั้ง 38 นัด และได้รับถ้วยทองคำใบเดียวในประวัติศาสตร์
+                        </p>
+                    </div>
+                    <button onclick="openModal('trophyLeague')" class="mt-6 w-full py-2.5 rounded-xl bg-white/15 hover:bg-white hover:text-[#063672] text-sm font-semibold transition">
+                        ดูทำเนียบปีแชมป์ลีก (13 สมัย) →
+                    </button>
+                </div>
+
+                <!-- 2. เอฟเอ คัพ -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-7 hover-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-[#EF0107] text-white text-xs font-bold rounded-full">สถิติสูงสุดตลอดกาล</span>
+                            <span class="font-en text-4xl font-extrabold text-[#FDE047]">14 สมัย</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">เอมิเรตส์ เอฟเอ คัพ (FA Cup)</h3>
+                        <p class="text-sm text-blue-100 leading-relaxed">
+                            อาร์เซนอลคือ "เจ้าพ่อเอฟเอ คัพ" ตัวจริงของเกาะอังกฤษ โดยครองสถิติคว้าแชมป์รายการที่เก่าแก่ที่สุดในโลกมากที่สุดถึง 14 สมัย (ล่าสุดในปี 2020)
+                        </p>
+                    </div>
+                    <button onclick="openModal('trophyFA')" class="mt-6 w-full py-2.5 rounded-xl bg-white/15 hover:bg-white hover:text-[#063672] text-sm font-semibold transition">
+                        ดูทำเนียบปีแชมป์เอฟเอ คัพ (14 สมัย) →
+                    </button>
+                </div>
+
+                <!-- 3. คอมมิวนิตี ชีลด์ -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-7 hover-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-white/20 text-white text-xs font-bold rounded-full">แชมป์ชนแชมป์</span>
+                            <span class="font-en text-4xl font-extrabold text-[#FDE047]">17 สมัย</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">เอฟเอ คอมมิวนิตี ชีลด์</h3>
+                        <p class="text-sm text-blue-100 leading-relaxed">
+                            คว้าโล่การกุศลเปิดฤดูกาลได้ถึง 17 สมัย รวมถึงชัยชนะเหนือแมนเชสเตอร์ ซิตี้ ในปี 2023 ภายใต้การคุมทีมของ มิเกล อาร์เตต้า
+                        </p>
+                    </div>
+                    <button onclick="openModal('trophyShield')" class="mt-6 w-full py-2.5 rounded-xl bg-white/15 hover:bg-white hover:text-[#063672] text-sm font-semibold transition">
+                        ดูรายละเอียดและปีที่คว้าแชมป์ →
+                    </button>
+                </div>
+
+                <!-- 4. ลีก คัพ -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-7 hover-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-white/20 text-white text-xs font-bold rounded-full">ฟุตบอลถ้วยในประเทศ</span>
+                            <span class="font-en text-4xl font-extrabold text-white">2 สมัย</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">ฟุตบอลลีก คัพ (EFL Cup)</h3>
+                        <p class="text-sm text-blue-100 leading-relaxed">
+                            คว้าแชมป์ลีกคัพในปี 1986–87 และ 1992–93 (ซึ่งในปี 1993 อาร์เซนอลสร้างประวัติศาสตร์เป็นทีมแรกที่คว้าดับเบิลแชมป์บอลถ้วยในประเทศทั้ง FA Cup และ League Cup)
+                        </p>
+                    </div>
+                    <button onclick="openModal('trophyOthers')" class="mt-6 w-full py-2.5 rounded-xl bg-white/15 hover:bg-white hover:text-[#063672] text-sm font-semibold transition">
+                        อ่านเรื่องราวดับเบิลแชมป์บอลถ้วย →
+                    </button>
+                </div>
+
+                <!-- 5. ยูโรเปียน คัพ วินเนอร์ส คัพ -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-7 hover-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-[#B4975A] text-gray-900 text-xs font-bold rounded-full">เวทียุโรป</span>
+                            <span class="font-en text-4xl font-extrabold text-white">2 สมัย</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">แชมป์สโมสรยุโรป</h3>
+                        <p class="text-sm text-blue-100 leading-relaxed">
+                            คว้าแชมป์ อินเตอร์-ซิตีส์ แฟร์ส คัพ ปี 1970 และ ยูโรเปียน คัพ วินเนอร์ส คัพ ปี 1994 รวมถึงเข้าชิงชนะเลิศ ยูฟ่า แชมเปียนส์ลีก ปี 2006
+                        </p>
+                    </div>
+                    <button onclick="openModal('trophyEurope')" class="mt-6 w-full py-2.5 rounded-xl bg-white/15 hover:bg-white hover:text-[#063672] text-sm font-semibold transition">
+                        อ่านประวัติผลงานเวทียุโรป →
+                    </button>
+                </div>
+
+                <!-- 6. ผลงานยุคปัจจุบัน -->
+                <div class="bg-gradient-to-br from-[#EF0107] to-[#9C0004] border border-white/25 rounded-2xl p-7 hover-card flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-white text-[#EF0107] text-xs font-bold rounded-full">ยุคปัจจุบัน (Modern Era)</span>
+                            <span class="font-en text-2xl font-extrabold text-[#FDE047]">2020 - ปัจจุบัน</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">การคืนสู่ความยิ่งใหญ่ยุค อาร์เตต้า</h3>
+                        <p class="text-sm text-red-100 leading-relaxed">
+                            สร้างทีมพลังหนุ่มสายเลือดใหม่ คว้าแชมป์เอฟเอ คัพ 2020, คอมมิวนิตี ชีลด์ 2020 & 2023 และก้าวขึ้นมาลุ้นแชมป์พรีเมียร์ลีกและยูฟ่า แชมเปียนส์ลีกอย่างแข็งแกร่ง
+                        </p>
+                    </div>
+                    <button onclick="openModal('modernEra')" class="mt-6 w-full py-2.5 rounded-xl bg-white text-[#EF0107] hover:bg-gray-100 text-sm font-bold transition shadow">
+                        ดูบทวิเคราะห์ผลงานยุคปัจจุบัน →
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+         5. ส่วนรายชื่อผู้เล่นชุดปัจจุบัน (SQUAD / PLAYERS SECTION)
+         - มีปุ่มกรองตามตำแหน่ง (ทั้งหมด, ผู้รักษาประตู, กองหลัง, กองกลาง, กองหน้า)
+         - คลิกที่การ์ดนักเตะเพื่ออ่านประวัติและสถิติส่วนตัวได้
+         - มีคอมเมนต์แนะนำวิธีเพิ่มหรือแก้ไขรายชื่อนักเตะในโค้ด HTML อย่างละเอียด
+    ========================================================================== -->
+    <section id="squad" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-sm font-bold tracking-wider uppercase text-arsenal-red">FIRST TEAM SQUAD</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">รายชื่อผู้เล่นชุดใหญ่</h2>
+                <div class="w-20 h-1.5 bg-arsenal-red mx-auto mt-4 rounded-full"></div>
+                <p class="text-gray-600 mt-4">
+                    เลือกดูรายชื่อขุนพลปืนใหญ่แยกตามตำแหน่ง และคลิก <strong>"ดูข้อมูลนักเตะ"</strong> เพื่ออ่านประวัติส่วนตัว
+                </p>
+            </div>
+
+            <!-- แถบปุ่มกรองตำแหน่งผู้เล่น -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12" id="position-filters">
+                <button data-filter="all" class="filter-btn active px-5 py-2.5 rounded-full text-sm font-semibold bg-[#EF0107] text-white shadow transition">
+                    ทั้งหมด (All)
+                </button>
+                <button data-filter="GK" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                    ผู้รักษาประตู (GK)
+                </button>
+                <button data-filter="DEF" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                    กองหลัง (DEF)
+                </button>
+                <button data-filter="MID" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                    กองกลาง (MID)
+                </button>
+                <button data-filter="FWD" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                    กองหน้า (FWD)
+                </button>
+            </div>
+
+            <!-- =================================================================
+                 ตารางการ์ดนักเตะ (PLAYER GRID)
+                 [คำแนะนำสำหรับผู้พัฒนา]: หากต้องการเพิ่มนักเตะคนใหม่ ให้คัดลอกบล็อก
+                 <div class="player-card ..."> ... </div> แล้วแก้ไขเบอร์เสื้อ ชื่อ ตำแหน่ง รูปภาพ ได้เลยครับ
+            ================================================================== -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="players-grid">
+
+                <!-- ผู้เล่น 1: David Raya -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="GK">
+                    <div class="relative h-56 bg-gradient-to-b from-[#063672] to-[#04244d] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">22</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">ผู้รักษาประตู</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/063672/FFFFFF?text=%2322+David+Raya" alt="David Raya" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">สเปน • หมายเลข 22</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">ดาบิด รายา (David Raya)</h3>
+                        <button onclick="openPlayerModal('ดาบิด รายา (David Raya)', '22', 'ผู้รักษาประตู (Goalkeeper)', 'สเปน', 'เจ้าของรางวัลถุงมือทองคำพรีเมียร์ลีก (Golden Glove) ผู้รักษาประตูจอมหนึบที่มีจุดเด่นด้านการเปิดบอลด้วยเท้าที่แม่นยำและการตัดลูกกลางอากาศ')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 2: William Saliba -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="DEF">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">2</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหลัง</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%232+William+Saliba" alt="William Saliba" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">ฝรั่งเศส • หมายเลข 2</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">วิลเลียม ซาลิบา (William Saliba)</h3>
+                        <button onclick="openPlayerModal('วิลเลียม ซาลิบา (William Saliba)', '2', 'กองหลังตัวกลาง (Center-Back)', 'ฝรั่งเศส', 'ปราการหลังระดับโลกชาวฝรั่งเศสที่ได้รับการยกย่องว่าแข็งแกร่ง เยือกเย็น อ่านเกมขาด และเป็นหัวใจสำคัญในแนวรับของอาร์เซนอล')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 3: Gabriel Magalhães -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="DEF">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">6</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหลัง</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%236+Gabriel+M." alt="Gabriel Magalhães" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">บราซิล • หมายเลข 6</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">กาเบรียล มากัลเญส (Gabriel)</h3>
+                        <button onclick="openPlayerModal('กาเบรียล มากัลเญส (Gabriel Magalhães)', '6', 'กองหลังตัวกลาง (Center-Back)', 'บราซิล', 'คู่หูแนวรับสุดแกร่งของซาลิบา โดดเด่นเรื่องความดุดัน ลูกกลางอากาศ และเป็นอาวุธเด็ดในการทำประตูจากลูกตั้งเตะ')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 4: Ben White -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="DEF">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">4</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหลัง</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%234+Ben+White" alt="Ben White" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">อังกฤษ • หมายเลข 4</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">เบน ไวท์ (Ben White)</h3>
+                        <button onclick="openPlayerModal('เบน ไวท์ (Ben White)', '4', 'แบ็กขวา / กองหลังตัวกลาง', 'อังกฤษ', 'ฟูลแบ็กจอมขยันที่มีความสม่ำเสมอสูง ประสานงานกับ บูกาโย ซาก้า ทางกราบขวาได้อย่างลงตัวและเติมเกมรุกได้อย่างชาญฉลาด')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 5: Jurrien Timber -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="DEF">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">12</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหลัง</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%2312+Jurrien+Timber" alt="Jurrien Timber" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">เนเธอร์แลนด์ • หมายเลข 12</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">ยูร์เรียน ทิมเบอร์ (Jurrien Timber)</h3>
+                        <button onclick="openPlayerModal('ยูร์เรียน ทิมเบอร์ (Jurrien Timber)', '12', 'ฟูลแบ็กซ้าย-ขวา / เซ็นเตอร์แบ็ก', 'เนเธอร์แลนด์', 'กองหลังเทคนิคสูงสารพัดประโยชน์ทีมชาติเนเธอร์แลนด์ เล่นได้ทั้งแบ็กซ้าย แบ็กขวา และหุบเข้ามากลางสนามเพื่อช่วยขึ้นเกมได้อย่างยอดเยี่ยม')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 6: Martin Ødegaard (กัปตันทีม) -->
+                <div class="player-card bg-white rounded-2xl border-2 border-[#B4975A] overflow-hidden shadow-sm hover-card" data-position="MID">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">8</span>
+                        <span class="absolute top-3 right-3 bg-[#B4975A] text-gray-900 font-bold text-xs px-2.5 py-1 rounded-full">กัปตันทีม • กองกลาง</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%238+Odegaard+(C)" alt="Martin Ødegaard" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-arsenal-gold font-bold">นอร์เวย์ • หมายเลข 8 (Captain)</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">มาร์ติน โอเดการ์ด (Ødegaard)</h3>
+                        <button onclick="openPlayerModal('มาร์ติน โอเดการ์ด (Martin Ødegaard)', '8', 'กองกลางตัวรุก / กัปตันทีม', 'นอร์เวย์', 'กัปตันทีมและจอมทัพหมายเลข 8 ผู้สร้างสรรค์เกมรุกด้วยวิสัยทัศน์การจ่ายบอลระดับอัจฉริยะและการเพรสซิ่งที่ไม่รู้จักเหน็ดเหนื่อย')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 7: Declan Rice -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="MID">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">41</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองกลาง</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%2341+Declan+Rice" alt="Declan Rice" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">อังกฤษ • หมายเลข 41</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">เดแคลน ไรซ์ (Declan Rice)</h3>
+                        <button onclick="openPlayerModal('เดแคลน ไรซ์ (Declan Rice)', '41', 'กองกลางตัวรับ / Box-to-Box', 'อังกฤษ', 'ห้องเครื่องคนสำคัญของอาร์เซนอลและทีมชาติอังกฤษ ครบเครื่องทั้งการตัดเกม พาบอลตะลุยไปข้างหน้า และยิงประตูสำคัญในนาทีบาป')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 8: Mikel Merino -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="MID">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">23</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองกลาง</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%2323+Mikel+Merino" alt="Mikel Merino" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">สเปน • หมายเลข 23</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">มิเกล เมริโน (Mikel Merino)</h3>
+                        <button onclick="openPlayerModal('มิเกล เมริโน (Mikel Merino)', '23', 'กองกลางตัวกลาง (Central Midfielder)', 'สเปน', 'มิดฟิลด์แชมป์ยูโร 2024 ทีมชาติสเปน ผู้แข็งแกร่งในการดวลลูกกลางอากาศ การเข้าปะทะแย่งบอล และสอดขึ้นไปทำประตูในกรอบเขตโทษ')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 9: Bukayo Saka -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="FWD">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">7</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหน้า / ปีก</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%237+Bukayo+Saka" alt="Bukayo Saka" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">อังกฤษ • หมายเลข 7</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">บูกาโย ซาก้า (Bukayo Saka)</h3>
+                        <button onclick="openPlayerModal('บูกาโย ซาก้า (Bukayo Saka)', '7', 'ปีกขวา / กองหน้า (Right Winger)', 'อังกฤษ', 'Starboy ผลผลิตจากอะคาเดมี Hale End ของอาร์เซนอลโดยตรง เจ้าของเสื้อหมายเลข 7 ระดับตำนาน ผู้แบกเกมรุกทางฝั่งขวาทั้งยิงและจ่าย')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 10: Kai Havertz -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="FWD">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">29</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหน้า</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%2329+Kai+Havertz" alt="Kai Havertz" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">เยอรมนี • หมายเลข 29</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">ไค ฮาแวร์ตซ์ (Kai Havertz)</h3>
+                        <button onclick="openPlayerModal('ไค ฮาแวร์ตซ์ (Kai Havertz)', '29', 'กองหน้าตัวเป้า / กองกลางตัวรุก', 'เยอรมนี', 'แนวรุกสารพัดประโยชน์ทีมชาติเยอรมนี ที่เชื่อมเกมได้อย่างชาญฉลาด แข็งแกร่งในลูกกลางอากาศ และยิงประตูสำคัญได้ต่อเนื่อง')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 11: Gabriel Martinelli -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="FWD">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">11</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหน้า / ปีก</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%2311+Martinelli" alt="Gabriel Martinelli" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">บราซิล • หมายเลข 11</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">กาเบรียล มาร์ติเนลลี (Martinelli)</h3>
+                        <button onclick="openPlayerModal('กาเบรียล มาร์ติเนลลี (Gabriel Martinelli)', '11', 'ปีกซ้าย / กองหน้า (Left Winger)', 'บราซิล', 'แนวรุกความเร็วสูงชาวบราซิลที่มีทักษะการเลี้ยงบอลทะลุทะลวงทางกราบซ้ายและการจบสกอร์ที่เฉียบคม')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ผู้เล่น 12: Leandro Trossard -->
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="FWD">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">19</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหน้า / ปีก</span>
+                        <!-- [จุดแก้ไขรูปภาพนักเตะ] เปลี่ยนลิงก์รูปภาพใน src="..." ได้เลย -->
+                        <img src="https://placehold.co/320x320/EF0107/FFFFFF?text=%2319+Trossard" alt="Leandro Trossard" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">เบลเยียม • หมายเลข 19</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">เลอันโดร ทรอสซาร์ (Trossard)</h3>
+                        <button onclick="openPlayerModal('เลอันโดร ทรอสซาร์ (Leandro Trossard)', '19', 'ปีกซ้าย / กองหน้าตัวหลอก (False 9)', 'เบลเยียม', 'จอมจบสกอร์สุดคมทั้งสองเท้าชาวเบลเยียม ตัวทีเด็ดที่ลงสนามมายิงประตูสำคัญช่วยทีมคว้าชัยชนะได้เสมอ')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+
+                <!-- =================================================================
+                     [จุดเพิ่มข้อมูลนักเตะ]
+                     คุณสามารถคัดลอกโค้ดด้านล่างนี้ (เอาเครื่องหมายคอมเมนต์ออก) เพื่อเพิ่มนักเตะได้ทันที
+                ================================================================== -->
+                <!-- 
+                <div class="player-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover-card" data-position="DEF">
+                    <div class="relative h-56 bg-gradient-to-b from-[#EF0107] to-[#9C0004] flex items-end justify-center pt-4">
+                        <span class="font-en absolute top-3 left-4 text-4xl font-extrabold text-white/25">33</span>
+                        <span class="absolute top-3 right-3 bg-white/20 text-white text-xs px-2.5 py-1 rounded-full">กองหลัง</span>
+                        <img src="ใส่ลิงก์รูปภาพนักเตะที่นี่.jpg" alt="Riccardo Calafiori" class="h-48 w-48 object-cover rounded-t-xl">
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-gray-500 font-medium">อิตาลี • หมายเลข 33</div>
+                        <h3 class="text-lg font-bold text-gray-900 mt-0.5">ริคคาร์โด คาลาฟิออรี (Calafiori)</h3>
+                        <button onclick="openPlayerModal('ริคคาร์โด คาลาฟิออรี', '33', 'กองหลัง', 'อิตาลี', 'รายละเอียดนักเตะ...')" 
+                                class="mt-4 w-full py-2 rounded-lg bg-gray-100 hover:bg-[#EF0107] hover:text-white text-gray-800 text-sm font-semibold transition">
+                            ดูประวัติ/สถิติเพิ่มเติม
+                        </button>
+                    </div>
+                </div>
+                -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+         6. ส่วนติดต่อผู้พัฒนาเว็บไซต์ (DEVELOPER CONTACT SECTION)
+         ข้อมูลของ: คุณจอมขวัญ พงษ์พันธุ์ | Line ID: 0809946715
+    ========================================================================== -->
+    <section id="developer" class="py-20 bg-gray-100 border-t border-gray-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-sm font-bold tracking-wider uppercase text-arsenal-red">WEB DEVELOPER & UX/UI DESIGNER</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">ติดต่อผู้พัฒนาเว็บไซต์</h2>
+                <div class="w-20 h-1.5 bg-arsenal-red mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- การ์ดโปรไฟล์ผู้พัฒนา -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-12">
+                    
+                    <!-- คอลัมน์ซ้าย: รูปภาพโปรไฟล์ผู้พัฒนา -->
+                    <div class="md:col-span-5 bg-gradient-to-br from-[#EF0107] via-[#9C0004] to-[#063672] p-8 flex flex-col items-center justify-center text-white text-center">
+                        <div class="relative group">
+                            <div class="w-44 h-44 sm:w-48 sm:h-48 rounded-full p-1.5 bg-gradient-to-tr from-[#B4975A] to-white shadow-2xl">
+                                <!-- =============================================================
+                                     [จุดแก้ไขรูปภาพผู้พัฒนา] 
+                                     เพียงนำชื่อไฟล์รูปภาพของคุณ (เช่น profile.jpg) หรือ URL รูปภาพมาวางแทนที่ใน src="..."
+                                ============================================================== -->
+                                <img id="dev-avatar" 
+                                     src="https://placehold.co/400x400/FFFFFF/EF0107?text=Jomkwan+P." 
+                                     alt="คุณจอมขวัญ พงษ์พันธุ์ - ผู้พัฒนาเว็บไซต์" 
+                                     class="w-full h-full object-cover rounded-full bg-white">
+                            </div>
+                            <span class="absolute bottom-2 right-2 bg-[#06C755] text-white text-xs font-bold px-3 py-1 rounded-full shadow-md border-2 border-white">
+                                พร้อมให้บริการ
+                            </span>
+                        </div>
+
+                        <h3 class="text-2xl font-bold mt-5">คุณจอมขวัญ พงษ์พันธุ์</h3>
+                        <p class="text-red-100 text-sm mt-1">Web Developer & UX/UI Designer</p>
+                        <div class="mt-4 inline-flex items-center px-3 py-1 rounded-full bg-white/15 text-xs">
+                            <span>ผู้พัฒนาเว็บไซต์ Arsenal FC Fan Hub</span>
+                        </div>
+                    </div>
+
+                    <!-- คอลัมน์ขวา: ข้อมูลการติดต่อ Line ID: 0809946715 และฟอร์มส่งข้อความ -->
+                    <div class="md:col-span-7 p-8 sm:p-10 flex flex-col justify-center">
+                        <div class="inline-block px-3 py-1 rounded-lg bg-red-50 text-arsenal-red text-xs font-bold w-fit mb-3">
+                            ข้อมูลการติดต่อโดยตรง
+                        </div>
+                        <h4 class="text-2xl font-bold text-gray-900 mb-2">
+                            สวัสดีค่ะ/ครับ ยินดีให้คำปรึกษาด้านการพัฒนาเว็บไซต์
+                        </h4>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-5">
+                            เว็บไซต์สโมสรฟุตบอลอาร์เซนอลนี้ ออกแบบและพัฒนาด้วยหลักการ UX/UI สมัยใหม่ 
+                            สามารถติดต่อสอบถามหรือพูดคุยผ่าน LINE หรือส่งข้อความผ่านแบบฟอร์มด้านล่างได้ทันที
+                        </p>
+
+                        <!-- กล่องแสดง Line ID: 0809946715 พร้อมปุ่มคัดลอกและปุ่มแอดไลน์ -->
+                        <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-2xl p-4 sm:p-5 mb-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div class="flex items-center space-x-3.5">
+                                    <!-- ไอคอน LINE -->
+                                    <div class="w-12 h-12 rounded-xl bg-[#06C755] flex items-center justify-center text-white shrink-0 shadow-sm">
+                                        <span class="font-en font-extrabold text-sm">LINE</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs text-gray-500 block">ติดต่อทางแอปพลิเคชัน LINE</span>
+                                        <!-- =====================================================
+                                             [แก้ไข LINE ID ที่นี่] 
+                                             Line ID ปัจจุบัน: 0809946715
+                                        ====================================================== -->
+                                        <span id="dev-line-id" class="font-en text-xl font-extrabold text-gray-900 select-all tracking-wide">
+                                            0809946715
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- ปุ่มคัดลอก Line ID และปุ่มลิงก์เปิดแอป LINE -->
+                                <div class="flex flex-wrap gap-2 shrink-0">
+                                    <button type="button" onclick="copyLineId()" id="copy-line-btn" class="px-4 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 text-white font-semibold text-xs sm:text-sm shadow transition flex items-center justify-center gap-1.5">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                        <span id="copy-btn-text">คัดลอก Line ID</span>
+                                    </button>
+                                    <a href="https://line.me/ti/p/~0809946715" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-[#06C755] hover:bg-[#05b34c] text-white font-semibold text-xs sm:text-sm shadow transition flex items-center justify-center gap-1.5">
+                                        <span>แอดไลน์ทันที</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- แถบแจ้งเตือนเล็กๆ เมื่อกดคัดลอกสำเร็จ -->
+                        <div id="copy-toast" class="hidden text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl px-4 py-2.5 mb-5 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>คัดลอก Line ID: <strong>0809946715</strong> เรียบร้อยแล้ว!</span>
+                        </div>
+
+                        <!-- ฟอร์มส่งข้อความติดต่อผู้พัฒนา (Interactive Contact Form) -->
+                        <form id="contact-dev-form" class="space-y-3 pt-4 border-t border-gray-200">
+                            <div class="text-sm font-bold text-gray-800">ส่งข้อความถึงคุณจอมขวัญ พงษ์พันธุ์</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <input type="text" id="sender-name" required placeholder="ชื่อของคุณ *" 
+                                       class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-[#EF0107] focus:ring-1 focus:ring-[#EF0107]">
+                                <input type="text" id="sender-contact" required placeholder="เบอร์โทร หรือ Line ID ของคุณ *" 
+                                       class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-[#EF0107] focus:ring-1 focus:ring-[#EF0107]">
+                            </div>
+                            <textarea id="sender-message" rows="2" required placeholder="พิมพ์ข้อความหรือรายละเอียดที่ต้องการติดต่อ... *" 
+                                      class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-[#EF0107] focus:ring-1 focus:ring-[#EF0107]"></textarea>
+                            
+                            <button type="submit" class="btn-arsenal w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-semibold shadow flex items-center justify-center gap-2">
+                                <span>ส่งข้อความติดต่อผู้พัฒนา</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                            </button>
+
+                            <!-- กล่องแจ้งเตือนเมื่อส่งข้อความสำเร็จ -->
+                            <div id="form-success-msg" class="hidden text-sm text-blue-800 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mt-2">
+                                ขอบคุณคุณ <strong id="display-sender-name"></strong>! ระบบได้รับข้อความเรียบร้อยแล้ว คุณจอมขวัญ พงษ์พันธุ์ (Line: 0809946715) จะติดต่อกลับโดยเร็วที่สุด
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+         7. ส่วนท้ายเว็บไซต์ (FOOTER)
+    ========================================================================== -->
+    <footer class="bg-[#111827] text-gray-300 py-12 border-t-4 border-[#EF0107]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <div class="font-en text-xl font-extrabold text-white tracking-wider">ARSENAL FOOTBALL CLUB</div>
+                    <p class="text-sm text-gray-400 mt-1">Victoria Concordia Crescit • เว็บไซต์รวบรวมข้อมูลประวัติ ผลงาน และรายชื่อผู้เล่น</p>
+                </div>
+
+                <!-- เมนูลัดส่วนท้าย -->
+                <div class="flex flex-wrap justify-center gap-6 text-sm">
+                    <a href="#home" class="hover:text-white transition">หน้าแรก</a>
+                    <a href="#history" class="hover:text-white transition">ประวัติสโมสร</a>
+                    <a href="#honors" class="hover:text-white transition">ผลงาน</a>
+                    <a href="#squad" class="hover:text-white transition">รายชื่อผู้เล่น</a>
+                    <a href="#developer" class="text-[#FDE047] hover:underline">ติดต่อคุณจอมขวัญ (Line: 0809946715)</a>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">
+                <p>ออกแบบและพัฒนาเว็บไซต์โดย <strong>คุณจอมขวัญ พงษ์พันธุ์ (Line ID: 0809946715)</strong> | จัดทำเพื่อการศึกษาและแฟนบอลสโมสรอาร์เซนอล</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================================================
+         8. หน้าต่าง MODAL สำหรับคลิก "อ่านเพิ่มเติม" (INTERACTIVE READ MORE MODAL)
+         ช่วยให้ผู้ใช้คลิกอ่านประวัติ ทำเนียบแชมป์ และประวัตินักเตะได้โดยไม่หลุดออกจากหน้าเว็บ
+    ========================================================================== -->
+    <div id="info-modal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-3xl max-w-2xl w-full max-h-[88vh] overflow-hidden shadow-2xl flex flex-col">
+            <!-- ส่วนหัว Modal -->
+            <div class="bg-gradient-to-r from-[#EF0107] to-[#9C0004] px-6 py-5 text-white flex justify-between items-center">
+                <div>
+                    <span id="modal-badge" class="text-xs uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full">ข้อมูลเพิ่มเติม</span>
+                    <h3 id="modal-title" class="text-xl sm:text-2xl font-bold mt-1">หัวข้อรายละเอียด</h3>
+                </div>
+                <button onclick="closeModal()" aria-label="ปิดหน้าต่าง" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- เนื้อหาภายใน Modal -->
+            <div id="modal-body" class="p-6 sm:p-8 overflow-y-auto text-gray-700 leading-relaxed space-y-4 text-sm sm:text-base">
+                <!-- เนื้อหาจะถูกเติมอัตโนมัติด้วย JavaScript เมื่อคลิกปุ่มอ่านเพิ่มเติม -->
+            </div>
+
+            <!-- ส่วนท้าย Modal -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end">
+                <button onclick="closeModal()" class="px-6 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold transition">
+                    ปิดหน้าต่างนี้
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         9. ส่วนควบคุมการทำงาน JAVASCRIPT (เมนูมือถือ, กรองนักเตะ, Modal อ่านเพิ่มเติม, คัดลอก Line)
+    ========================================================================== -->
+    <script>
+        // 1. ระบบเปิด-ปิดเมนูบนมือถือ (Mobile Hamburger Menu)
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 2. ระบบกรองรายชื่อนักเตะตามตำแหน่ง (Squad Filter)
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const playerCards = document.querySelectorAll('.player-card');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // รีเซ็ตสีปุ่มทั้งหมด
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-[#EF0107]', 'text-white', 'shadow');
+                    b.classList.add('bg-gray-100', 'text-gray-700');
+                });
+                // ไฮไลต์ปุ่มที่ถูกเลือก
+                btn.classList.remove('bg-gray-100', 'text-gray-700');
+                btn.classList.add('bg-[#EF0107]', 'text-white', 'shadow');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                playerCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-position') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 3. ฐานข้อมูลเนื้อหา "อ่านเพิ่มเติม" (ประวัติสโมสร และ เกียรติประวัติ)
+        const modalDatabase = {
+            history1: {
+                badge: 'ประวัติศาสตร์ยุคที่ 1 (ค.ศ. 1886 - 1913)',
+                title: 'จุดกำเนิด Dial Square และย่านวูลิช',
+                content: `
+                    <p><strong>สโมสรฟุตบอลอาร์เซนอล</strong> ถือกำเนิดขึ้นในเดือนตุลาคม ปี ค.ศ. 1886 โดยกลุ่มคนงานในโรงงานผลิตอาวุธ <em>Royal Arsenal</em> ย่านวูลิช (Woolwich) ทางตะวันออกเฉียงใต้ของกรุงลอนดอน นำโดย เดวิด แดนสกิน (David Danskin) และ แจ็ค ฮัมเบิล</p>
+                    <p>ในระยะแรกทีมใช้ชื่อว่า <strong>"ไดอัล สแควร์" (Dial Square)</strong> ตามชื่อโรงงานย่อยที่พวกเขาทำงานอยู่ และลงแข่งนัดแรกเมื่อวันที่ 11 ธันวาคม 1886 เอาชนะทีม Eastern Wanderers ไปได้ถึง 6–0</p>
+                    <p>ไม่นานหลังจากนั้น สโมสรเปลี่ยนชื่อเป็น <strong>Royal Arsenal</strong> และเมื่อเปลี่ยนสถานะเป็นสโมสรฟุตบอลอาชีพเต็มตัวในปี 1893 จึงใช้ชื่อว่า <strong>Woolwich Arsenal</strong> กลายเป็นสโมสรแรกจากทางตอนใต้ของอังกฤษที่ได้เข้าร่วมแข่งขันฟุตบอลลีก</p>
+                `
+            },
+            history2: {
+                badge: 'ประวัติศาสตร์ยุคที่ 2 (ค.ศ. 1913 - 1939)',
+                title: 'ย้ายสู่สนามไฮบิวรี และยุคทองของ เฮอร์เบิร์ต แชปแมน',
+                content: `
+                    <p>ในปี ค.ศ. 1913 สโมสรตัดสินใจครั้งสำคัญด้วยการย้ายข้ามแม่น้ำเทมส์มายังสนามแห่งใหม่ที่ <strong>ไฮบิวรี (Highbury)</strong> ทางตอนเหนือของลอนดอน และตัดคำว่า Woolwich ออก เหลือเพียงชื่อ <strong>"อาร์เซนอล" (The Arsenal)</strong></p>
+                    <p>จุดเปลี่ยนครั้งยิ่งใหญ่เกิดขึ้นในปี 1925 เมื่อสโมสรแต่งตั้ง <strong>เฮอร์เบิร์ต แชปแมน (Herbert Chapman)</strong> เข้ามาเป็นผู้จัดการทีม เขาคือผู้ปฏิวัติวงการฟุตบอลอังกฤษ ทั้งการคิดค้นแผนการเล่นระบบ <em>WM Formation</em> การติดหมายเลขบนเสื้อนักเตะ และการเพิ่มแถบแขนเสื้อสีขาวลงบนเสื้อสีแดงอันเป็นเอกลักษณ์จนถึงทุกวันนี้</p>
+                    <p>ภายใต้ยุคของแชปแมนและผู้สืบทอด อาร์เซนอลครองความยิ่งใหญ่ในทศวรรษ 1930 ด้วยการคว้าแชมป์ลีกสูงสุดถึง 5 สมัย และเอฟเอ คัพ 2 สมัย</p>
+                `
+            },
+            history3: {
+                badge: 'ประวัติศาสตร์ยุคที่ 3 (ค.ศ. 1996 - 2018)',
+                title: 'การปฏิวัติของ อาร์แซน เวนเกอร์ และตำนานไร้พ่าย (The Invincibles)',
+                content: `
+                    <p>เดือนตุลาคม ปี 1996 <strong>อาร์แซน เวนเกอร์ (Arsène Wenger)</strong> กุนซือชาวฝรั่งเศสเข้ามารับตำแหน่งผู้จัดการทีม และเปลี่ยนแปลงฟุตบอลอังกฤษไปตลอดกาล ทั้งเรื่องโภชนาการ วิทยาศาสตร์การกีฬา และสไตล์การเล่นเกมรุกที่รวดเร็วสวยงาม</p>
+                    <p>เวนเกอร์พาทีมคว้าดับเบิลแชมป์ (ลีก + เอฟเอ คัพ) ในปี 1998 และ 2002 โดยมีซูเปอร์สตาร์ระดับโลกอย่าง เธียร์รี อองรี, เดนนิส เบิร์กแคมป์, ปาทริค วิเอรา และ โรแบร์ ปิแรส</p>
+                    <div class="bg-amber-50 border-l-4 border-[#B4975A] p-4 rounded-r-xl">
+                        <p class="font-bold text-gray-900">สถิติอมตะ: The Invincibles (2003–04)</p>
+                        <p class="text-sm mt-1">อาร์เซนอลคว้าแชมป์พรีเมียร์ลีกฤดูกาล 2003–04 โดยไม่แพ้ใครเลยตลอดทั้ง 38 นัด (ชนะ 26 เสมอ 12) และสร้างสถิติไร้พ่ายในลีกสูงสุดยาวนานที่สุดถึง 49 นัดติดต่อกัน</p>
+                    </div>
+                `
+            },
+            history4: {
+                badge: 'ประวัติศาสตร์ยุคที่ 4 (ค.ศ. 2006 - ปัจจุบัน)',
+                title: 'ยุคเอมิเรตส์ สเตเดียม และการกลับมาทวงบัลลังก์ยุค มิเกล อาร์เตต้า',
+                content: `
+                    <p>ในปี 2006 อาร์เซนอลอำลาสนามไฮบิวรีที่ใช้งานมายาวนาน 93 ปี เพื่อย้ายเข้าสู่รังเหย้าแห่งใหม่ระดับเวิลด์คลาสอย่าง <strong>เอมิเรตส์ สเตเดียม (Emirates Stadium)</strong> ความจุกว่า 60,700 ที่นั่ง</p>
+                    <p>หลังผ่านช่วงเวลาแห่งการสร้างรากฐานทางการเงิน อาร์เซนอลได้แต่งตั้งอดีตกัปตันทีม <strong>มิเกล อาร์เตต้า (Mikel Arteta)</strong> เข้ามาคุมทัพในปี 2019 และพาสโมสรคว้าแชมป์เอฟเอ คัพ สมัยที่ 14 ได้ทันที</p>
+                    <p>ปัจจุบัน อาร์เซนอลก้าวขึ้นมาเป็นหนึ่งในทีมที่แข็งแกร่งที่สุดในยุโรป ด้วยขุมกำลังสายเลือดใหม่อย่าง บูกาโย ซาก้า, มาร์ติน โอเดการ์ด, เดแคลน ไรซ์ และ วิลเลียม ซาลิบา ที่พร้อมเดินหน้าล่าความสำเร็จอย่างต่อเนื่อง</p>
+                `
+            },
+            historyFull: {
+                badge: 'สรุปประวัติศาสตร์ฉบับสมบูรณ์',
+                title: 'เส้นทางเกียรติยศของอาร์เซนอล (1886 - ปัจจุบัน)',
+                content: `
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>1886:</strong> ก่อตั้งสโมสรในชื่อ Dial Square โดยคนงานโรงงานอาวุธ Royal Arsenal</li>
+                        <li><strong>1913:</strong> ย้ายจากย่านวูลิชสู่สนามไฮบิวรี ทางตอนเหนือของลอนดอน</li>
+                        <li><strong>1919:</strong> เลื่อนชั้นกลับสู่ดิวิชั่น 1 และไม่เคยตกชั้นจากลีกสูงสุดอีกเลยจนถึงปัจจุบัน (ยาวนานที่สุดในอังกฤษ)</li>
+                        <li><strong>1930–1938:</strong> ยุคทองของ เฮอร์เบิร์ต แชปแมน คว้าแชมป์ลีก 5 สมัย</li>
+                        <li><strong>1970–71:</strong> คว้าดับเบิลแชมป์ (ลีก + เอฟเอ คัพ) ครั้งแรกในประวัติศาสตร์สโมสรภายใต้การคุมทีมของ เบอร์ตี มี</li>
+                        <li><strong>1989:</strong> คว้าแชมป์ลีกสุดดราม่าที่แอนฟิลด์ (ชนะลิเวอร์พูล 2-0 ในนาทีสุดท้าย)</li>
+                        <li><strong>1996–2018:</strong> ยุคของ อาร์แซน เวนเกอร์ คว้าแชมป์พรีเมียร์ลีก 3 สมัย, เอฟเอ คัพ 7 สมัย และสร้างตำนานแชมป์ไร้พ่าย 2003–04</li>
+                        <li><strong>2006:</strong> เปิดใช้งานสนาม เอมิเรตส์ สเตเดียม</li>
+                        <li><strong>2019–ปัจจุบัน:</strong> ยุคฟื้นฟูความยิ่งใหญ่ของ มิเกล อาร์เตต้า กลับสู่เวทียูฟ่า แชมเปียนส์ลีก และลุ้นแชมป์พรีเมียร์ลีกเต็มตัว</li>
+                    </ul>
+                `
+            },
+            trophyLeague: {
+                badge: 'ทำเนียบแชมป์ลีกสูงสุดอังกฤษ',
+                title: 'แชมป์ลีกสูงสุด 13 สมัย (First Division & Premier League)',
+                content: `
+                    <p>อาร์เซนอลคว้าแชมป์ลีกสูงสุดของประเทศอังกฤษได้ทั้งหมด <strong>13 สมัย</strong> ดังนี้:</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-2">
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1930–31</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1932–33</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1933–34</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1934–35</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1937–38</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1947–48</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1952–53</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1970–71</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1988–89</div>
+                        <div class="bg-gray-100 p-2.5 rounded-lg text-center font-semibold">1990–91</div>
+                        <div class="bg-red-50 text-arsenal-red border border-red-200 p-2.5 rounded-lg text-center font-bold">1997–98 (PL)</div>
+                        <div class="bg-red-50 text-arsenal-red border border-red-200 p-2.5 rounded-lg text-center font-bold">2001–02 (PL)</div>
+                        <div class="bg-amber-100 text-amber-900 border border-amber-400 p-2.5 rounded-lg text-center font-extrabold col-span-2 sm:col-span-1">2003–04 (ไร้พ่าย)</div>
+                    </div>
+                `
+            },
+            trophyFA: {
+                badge: 'สถิติสูงสุดของเกาะอังกฤษ',
+                title: 'แชมป์เอฟเอ คัพ 14 สมัย (FA Cup Record Holders)',
+                content: `
+                    <p>อาร์เซนอลครองสถิติคว้าแชมป์เอฟเอ คัพ มากที่สุดในประวัติศาสตร์ฟุตบอลอังกฤษถึง <strong>14 สมัย</strong>:</p>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2.5 pt-2">
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">1930</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">1936</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">1950</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">1971</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">1979</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">1993</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">1998</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">2002</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">2003</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">2005</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">2014</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">2015</div>
+                        <div class="bg-gray-100 p-2 rounded-lg text-center font-semibold">2017</div>
+                        <div class="bg-red-50 text-arsenal-red border border-red-200 p-2 rounded-lg text-center font-bold">2020</div>
+                    </div>
+                `
+            },
+            trophyShield: {
+                badge: 'FA Community Shield',
+                title: 'แชมป์เอฟเอ คอมมิวนิตี ชีลด์ 17 สมัย',
+                content: `
+                    <p>อาร์เซนอลคว้าแชมป์แชริตี ชีลด์ / คอมมิวนิตี ชีลด์ ได้ทั้งหมด <strong>17 สมัย</strong> (รวมแชมป์ร่วมในปี 1991):</p>
+                    <p class="font-medium text-gray-900">ปีที่คว้าแชมป์: 1930, 1931, 1933, 1934, 1938, 1948, 1953, 1991 (ร่วม), 1998, 1999, 2002, 2004, 2014, 2015, 2017, 2020 และ 2023</p>
+                `
+            },
+            trophyOthers: {
+                badge: 'ฟุตบอลถ้วยในประเทศ',
+                title: 'แชมป์ลีก คัพ 2 สมัย (1987, 1993)',
+                content: `
+                    <p>อาร์เซนอลคว้าแชมป์ฟุตบอลลีก คัพ ได้ 2 สมัย ในฤดูกาล <strong>1986–87</strong> (ชนะลิเวอร์พูล 2–1) และฤดูกาล <strong>1992–93</strong> (ชนะเชฟฟิลด์ เว้นส์เดย์ 2–1)</p>
+                    <p>ความพิเศษของปี 1993 คือ อาร์เซนอลสามารถเอาชนะ เชฟฟิลด์ เว้นส์เดย์ ได้ทั้งในนัดชิงชนะเลิศ ลีก คัพ และ เอฟเอ คัพ กลายเป็นทีมแรกในประวัติศาสตร์อังกฤษที่คว้าดับเบิลแชมป์ฟุตบอลถ้วยในประเทศได้ภายในฤดูกาลเดียวกัน</p>
+                `
+            },
+            trophyEurope: {
+                badge: 'เกียรติประวัติระดับทวีปยุโรป',
+                title: 'แชมป์สโมสรยุโรป (1970 & 1994)',
+                content: `
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>อินเตอร์-ซิตีส์ แฟร์ส คัพ (1969–70):</strong> อาร์เซนอลพลิกสถานการณ์เอาชนะ อันเดอร์เลชท์ จากเบลเยียมด้วยสกอร์รวม 4–3 คว้าแชมป์ยุโรปใบแรกของสโมสร</li>
+                        <li><strong>ยูโรเปียน คัพ วินเนอร์ส คัพ (1993–94):</strong> อาร์เซนอลเอาชนะ ปาร์มา ทีมแกร่งจากอิตาลี 1–0 จากประตูชัยของ อลัน สมิธ ที่กรุงโคเปนเฮเกน</li>
+                        <li><strong>รองแชมป์ ยูฟ่า แชมเปียนส์ลีก (2005–06):</strong> สร้างสถิติไม่เสียประตู 10 นัดติดต่อกันในแชมเปียนส์ลีก ก่อนพ่ายบาร์เซโลนาอย่างสูสี 1–2 ในนัดชิงชนะเลิศที่กรุงปารีส</li>
+                    </ul>
+                `
+            },
+            modernEra: {
+                badge: 'ผลงานยุคปัจจุบัน (2020 - ปัจจุบัน)',
+                title: 'การยกระดับทีมของ มิเกล อาร์เตต้า สู่ทีมลุ้นแชมป์เต็มตัว',
+                content: `
+                    <p>นับตั้งแต่ <strong>มิเกล อาร์เตต้า</strong> เข้ามาวางรากฐานใหม่ สโมสรได้เปลี่ยนแปลงวัฒนธรรมการทำงานและสร้างขุมกำลังคนหนุ่มที่เปี่ยมไปด้วยคุณภาพและแพสชัน</p>
+                    <ul class="space-y-2 list-disc pl-5">
+                        <li><strong>คว้าแชมป์เอฟเอ คัพ 2020</strong> และ <strong>คอมมิวนิตี ชีลด์ 2 สมัย (2020, 2023)</strong></li>
+                        <li>สร้างสถิติชนะและยิงประตูได้มากที่สุดในประวัติศาสตร์สโมสรในยุคพรีเมียร์ลีก (ยิงไปถึง 91 ประตูในฤดูกาล 2023–24 และเสียประตูน้อยที่สุดในลีก)</li>
+                        <li>กลับเข้าสู่รอบลึกของศึก ยูฟ่า แชมเปียนส์ลีก และเป็นคู่แข่งลุ้นแชมป์พรีเมียร์ลีกอย่างเต็มภาคภูมิ</li>
+                    </ul>
+                `
+            }
+        };
+
+        const infoModal = document.getElementById('info-modal');
+        const modalBadge = document.getElementById('modal-badge');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+
+        // ฟังก์ชันเปิด Modal สำหรับประวัติและผลงาน
+        function openModal(key) {
+            const data = modalDatabase[key];
+            if (!data) return;
+
+            modalBadge.textContent = data.badge;
+            modalTitle.textContent = data.title;
+            modalBody.innerHTML = data.content;
+            infoModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ฟังก์ชันเปิด Modal สำหรับข้อมูลนักเตะรายบุคคล
+        function openPlayerModal(name, number, position, nationality, bio) {
+            modalBadge.textContent = `หมายเลข #${number} • ${nationality}`;
+            modalTitle.textContent = name;
+            modalBody.innerHTML = `
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 mb-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-gray-500 block">ตำแหน่งการเล่น</span>
+                        <span class="font-bold text-gray-900">${position}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-gray-500 block">เบอร์เสื้อ</span>
+                        <span class="font-en text-2xl font-extrabold text-arsenal-red">#${number}</span>
+                    </div>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-1">ข้อมูลและบทบาทในทีม:</h4>
+                <p class="text-gray-700 leading-relaxed">${bio}</p>
+            `;
+            infoModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ฟังก์ชันปิด Modal
+        function closeModal() {
+            infoModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // ปิด Modal เมื่อคลิกพื้นที่ว่างด้านนอกกล่องเนื้อหา
+        infoModal.addEventListener('click', (e) => {
+            if (e.target === infoModal) {
+                closeModal();
+            }
+        });
+
+        // ปิด Modal เมื่อกดปุ่ม ESC บนคีย์บอร์ด
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !infoModal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // 4. ฟังก์ชันคัดลอก Line ID ของผู้พัฒนา (คุณจอมขวัญ พงษ์พันธุ์)
+        function copyLineId() {
+            const lineIdText = document.getElementById('dev-line-id').innerText.trim();
+            const toast = document.getElementById('copy-toast');
+            const btnText = document.getElementById('copy-btn-text');
+
+            // สร้าง textarea ชั่วคราวเพื่อรองรับการคัดลอกในทุกเบราว์เซอร์และ iFrame
+            const tempInput = document.createElement('textarea');
+            tempInput.value = lineIdText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // แสดงข้อความแจ้งเตือนว่าคัดลอกสำเร็จ
+            toast.classList.remove('hidden');
+            btnText.textContent = 'คัดลอกแล้ว!';
+
+            setTimeout(() => {
+                btnText.textContent = 'คัดลอก Line ID';
+            }, 3000);
+        }
+
+        // 5. ระบบจัดการฟอร์มส่งข้อความติดต่อผู้พัฒนา (Contact Form Handler)
+        const contactForm = document.getElementById('contact-dev-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const senderName = document.getElementById('sender-name').value.trim();
+                const successBox = document.getElementById('form-success-msg');
+                const displaySender = document.getElementById('display-sender-name');
+
+                displaySender.textContent = senderName;
+                successBox.classList.remove('hidden');
+                contactForm.reset();
+
+                setTimeout(() => {
+                    successBox.classList.add('hidden');
+                }, 6000);
+            });
+        }
+    </script>
+</body>
+</html>
